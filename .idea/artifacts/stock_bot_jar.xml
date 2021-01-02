@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="stock-bot:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/stock_bot_jar</output-path>
+    <root id="archive" name="stock-bot.jar">
+      <element id="module-output" name="stock-bot" />
+    </root>
+  </artifact>
+</component>
