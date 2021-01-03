@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_5" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<lib name="stock-bot" scope="COMPILE">
+		<srcroot url="file://$MODULE_DIR$/alpaca-java/build/generated-sources/schemajson"/>
+		<srcroot bind="false" url="file://$MODULE_DIR$/alpaca-java/src/main/java"/>
+		<srcroot bind="false" url="file://$MODULE_DIR$/src/main/java"/>
+		<relative-module-src project-related="file://$PROJECT_DIR$/alpaca-java/build/generated-sources/schemajson"/>
+		<relative-module-src project-related="file://$PROJECT_DIR$/alpaca-java/src/main/java"/>
+		<relative-module-src project-related="file://$PROJECT_DIR$/src/main/java"/>
+		<relative-module-cls project-related="file://$PROJECT_DIR$"/>
+	</lib>
+</component>
