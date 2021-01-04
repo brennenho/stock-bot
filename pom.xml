@@ -6,13 +6,49 @@
 
     <groupId>fool</groupId>
     <artifactId>stock-bot</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <dependency>
-        <groupId>net.jacobpeterson</groupId>
-        <artifactId>alpaca-java</artifactId>
-        <version>6.0.1</version>
-        <scope>compile</scope>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>net.jacobpeterson</groupId>
+            <artifactId>alpaca-java</artifactId>
+            <version>6.0.1</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>/Users/brennenho/Desktop/Programming/stock-bot/src/main/java/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <!-- Attach the shade goal into the package phase -->
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
     
 </project>

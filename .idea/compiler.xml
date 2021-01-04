@@ -10,7 +10,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="stock-bot" target="11" />
+      <module name="alpaca-java" target="1.8" />
+      <module name="stock-bot" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
