@@ -1,9 +1,12 @@
 package com;
 
 import net.jacobpeterson.alpaca.AlpacaAPI;
-import net.jacobpeterson.alpaca.rest.exception.AlpacaAPIRequestException;
 
 import java.util.ArrayList;
+
+import static net.jacobpeterson.alpaca.enums.OrderSide.BUY;
+import static net.jacobpeterson.alpaca.enums.OrderSide.SELL;
+import static net.jacobpeterson.alpaca.enums.OrderTimeInForce.GTC;
 
 public class stockbot {
 
@@ -18,78 +21,113 @@ public class stockbot {
     {
 
         System.out.println("Main program");
-        System.out.println(getCurrentPrice("APPL"));
+        System.out.println(getCurrentPrice("WORK"));
+        Stock newStock = new Stock("WORK");
+        portfolio.add(newStock);
+        System.out.println(findInPortfolio("WORK"));
+        System.out.println(getOpeningPrice("WORK"));
+        buyStock("WORK", 2);
+        buyStock("AAPL", 2);
+        buyStock("WORK", 1);
+        System.out.println("porfolio size: " + portfolio.size());
+        for (int i = 0; i < portfolio.size(); i++) {
+
+            System.out.println(i + " : " + portfolio.get(i));
+
+        }
+
+    }
+
+    // Check if a stock object is currently in the portfolio
+    public static int findInPortfolio(String name) {
+
+        int index = 0;
+
+        for (int i = 0; i < portfolio.size(); i++) {
+
+            if (name.equals(portfolio.get(i).ticker)) {
+
+                index = i;
+
+            }
+
+        }
+
+        return index;
 
     }
 
 
-    // Check if a stock object is currently in the portfolio
-    /*public static boolean findInPortfolio(String name) {
+    // Buy a certain amount of stock and add it to the portfolio
+    public static void buyStock (String name, int quantity) {
 
+        boolean exception = false;
 
-        // Integrates
-        for (int i = 0; i < portfolio.size(); i++) {
+        // Use the alpaca API to send the order in
+        try {
+            alpacaAPI.requestNewMarketOrder(name, quantity, BUY, GTC);
 
-            if (name.equals(portfolio.get(i))) {
-
-                return true;
-
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            exception = true;
         }
 
-        return false;
+        if (!exception) {
+            if ((findInPortfolio(name) != 0)) {
 
-    }*/
+                for (int i = 0; i < portfolio.size(); i++) {
 
+                    if (name.equals(portfolio.get(i).ticker)) {
 
-    // Buy a certain amount of stock and add it to the portfolio
-    /*public static void buyStock (String name, int quantity) {
+                        portfolio.get(i).stake += quantity;
 
-        // Create a new stock object
-        Stock newStock = new Stock(name); // Create a new stock object
-
-        if (findInPortfolio(name)) {
-
-            for (int i = 0; i < portfolio.size(); i++) {
-
-                if (name.equals(portfolio.get(i))) {
-
-                    // portfolio.get(i).stake++; // Increase stock stake by one
-                    System.out.println("buyStock");
+                    }
 
                 }
 
             }
+            else {
 
+                Stock newStock = new Stock(name);
+                newStock.stake = quantity;
+                System.out.println("test: " + newStock.stake);
+                portfolio.add(newStock);
+
+            }
         }
 
-        OrderSide side = side.BUY;
-        OrderTimeInForce timeInForce = GTC;
+
+    }
+
+    // Sell Stock
+    public static void sellStock(String name, int quantity)
+    {
+    if ((findInPortfolio(name)) != 0) {
+
+        try {
+            alpacaAPI.requestNewMarketOrder(name, quantity, SELL, GTC);
+            portfolio.get(findInPortfolio(name)).stake =- quantity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-        // Use the alpaca API to send the order in
-        alpacaAPI.requestNewMarketOrder(name, quantity, side, timeInForce);
+    }
 
-
-    }*/
-
+    }
 
     // Get Current Price
 
     public static double getCurrentPrice(String name){
 
         double price = 0.0;
-        System.out.println("1");
        try {
 
             price = alpacaAPI.getLastTrade(name).getLast().getPrice();
-            System.out.println("2");
 
         }
         catch (Exception e) {
-            System.out.println("3");
-            System.out.println("getCurrentPrice threw an exception");
+            e.printStackTrace();
 
         }
         return price;
@@ -98,19 +136,20 @@ public class stockbot {
 
     // Get Opening Price
 
-    /*public double getOpeningPrice(String name)
+    public static double getOpeningPrice(String name)
     {
 
-        //return alpacaAPI.getOpenPositionBySymbol(name).getLast().getPrice();
+        double openingPrice = 0.0;
+        try {
+            //openingPrice = alpacaAPI.getOpenPositionBySymbol(name).getLast().getPrice();
+        }
+        catch (Exception e) {
 
-    }*/
+            e.printStackTrace();
 
-    // Sell Stock
+        }
+        return openingPrice;
 
-    /*public static void sellStock(String name, int quantity)
-    {
-
-
-    }*/
+    }
 
 }

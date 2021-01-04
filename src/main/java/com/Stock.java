@@ -13,7 +13,7 @@ public class Stock {
     public String ticker; // Stock name
     public double price; // Current price
     public double open; // Open of the day
-    public Asset stake; // Number of stocks we have currently
+    public int stake; // Number of stocks we have currently
 
     // CONSTRUCTORS
 
@@ -35,30 +35,26 @@ public class Stock {
         try {
 
             price = alpacaAPI.getLastTrade(ticker).getLast().getPrice();
+            System.out.println("Constructor:" + price);
 
-        }
-        catch (Exception e){
-
-            System.out.println("An exception was thrown");
-
-        }
-
-        try {
-            stake = alpacaAPI.getAssetBySymbol(ticker);
         }
         catch (Exception e) {
 
-            System.out.println("An exception was thrown");
+            e.printStackTrace();
 
         }
-
     }
 
+    public String toString () {
+
+        return "Stock: " + ticker + " Stake: " + stake;
+
+    }
     // MUTATOR METHODS
 
     public void addStock(int quantity) {
 
-        System.out.println("addStock method");
+        stake = stake + quantity;
 
     }
 
